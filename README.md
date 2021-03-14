@@ -1,2 +1,2 @@
 # NetCore_Develop
-This is an example of .Net Core Application
+This is a test project of .Net Core Web Application
