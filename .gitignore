@@ -27,7 +27,6 @@ x86/
 build/
 bld/
 [Bb]in/
-[Oo]bj/
 [Oo]ut/
 msbuild.log
 msbuild.err
@@ -235,6 +234,7 @@ PublishScripts/
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/[Pp]ackages/repositories.config
 # NuGet v3's project.json files produces more ignorable files
+*.nuget.*
 *.nuget.props
 *.nuget.targets
 
