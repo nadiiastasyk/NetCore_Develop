@@ -4,8 +4,7 @@ cache:
     - packages -> **\packages.config
 before_build:
     - nuget restore
-restoreDirectory:
-    - NetCore_Develop
 build: 
     project: Intro.csproj
+    restoreDirectory: NetCore_Develop
     publish_wap: true
