@@ -36,7 +36,7 @@ namespace Intro
             {
                 endpoints.MapGet("/", async context =>
                 {
-                    await context.Response.WriteAsync(_configuration["MyConfiguration"]);
+                    await context.Response.WriteAsync(_configuration["Logging:LogLevel:Microsoft.Hosting.Lifetime"]);
                 });
             });
         }
