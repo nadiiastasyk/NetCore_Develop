@@ -5,5 +5,5 @@ cache:
 before_build:
     - nuget restore
 build: 
-    project: AppVeyorExample.csproj
+    project: Intro.csproj
     publish_wap: true
