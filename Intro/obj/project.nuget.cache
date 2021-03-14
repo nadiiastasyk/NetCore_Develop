@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hq8dc40CoMxxl2BRFXBbD9XN0kVEBwk9MdilAjL10oEvA0XVMsDnTop4Bq8dL4k/irI8wkIDPy+/XVHaJ/wUSA==",
+  "success": true,
+  "projectFilePath": "C:\\gitNS\\NetCore_Develop\\Intro\\Intro.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nadiia\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
