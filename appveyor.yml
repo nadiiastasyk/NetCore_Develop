@@ -6,5 +6,4 @@ before_build:
     - nuget restore
 build: 
     project: Intro.csproj
-    restoreDirectory: NetCore_Develop
     publish_wap: true
