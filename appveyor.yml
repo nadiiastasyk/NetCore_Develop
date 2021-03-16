@@ -3,7 +3,7 @@ configuration: Release
 cache: 
     - packages -> **\packages.config
 before_build:
-    - nuget restore
+    - nuget restore Intro\Intro.sln
 build: 
     project: Intro\Intro.sln
     publish_wap: true
