@@ -5,5 +5,5 @@ cache:
 before_build:
     - nuget restore
 build: 
-    project: Intro.csproj
+    project: Intro\Intro.sln
     publish_wap: true
