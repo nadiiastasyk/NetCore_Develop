@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "News";
+}
+
+@model IEnumerable<News>
+
+<div class="text-center">
+    <h1 class="display-4">News Page</h1>
+    <p>News Page description</p>
+
+    @section Table {
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Text)</td>
+                    <td>@Html.DisplayFor(modelItem => item.AuthorName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IsFake)</td>
+                </tr>
+            }
+        </table>
+    </div>
+    }
