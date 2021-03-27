@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MVC_Web_App.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace MVC_Web_App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddScoped<INewsRepository, MockNewsRepository>();
+            services.AddScoped<INewsRepository, MockNewsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
