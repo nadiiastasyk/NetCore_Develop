@@ -7,23 +7,23 @@ namespace MVC_Web_App.Controllers
 {
     public class NewsController : Controller
     {
-        private INewsRepository _newsRepository;
+        private NewsDbContext _dbContext;
 
-        public NewsController(INewsRepository newsRepository)
+        public NewsController(NewsDbContext dbContext)
         {
-            _newsRepository = newsRepository;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            IEnumerable<News> allNews = _newsRepository.GetNews();
+            IEnumerable<News> allNews = _dbContext.News.AsParallel();
             return View(allNews);
         }
 
+        [Route("[controller]/[action]/{index:int}")]
         public IActionResult Get(int index)
         {
-            var news = _newsRepository.GetNews();
-            ViewData["News"] = news.SingleOrDefault(x => x.Id == index);
+            ViewData["News"] = _dbContext.News.FirstOrDefault(x => x.Id == index);
 
             return View();
         }

@@ -25,6 +25,7 @@ namespace MVC_Web_App
         {
             services.AddControllersWithViews();
             services.AddScoped<INewsRepository, MockNewsRepository>();
+            services.AddScoped<NewsDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
