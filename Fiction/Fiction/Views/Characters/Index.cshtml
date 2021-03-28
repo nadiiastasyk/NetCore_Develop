@@ -1,0 +1,24 @@
+﻿@{ViewData["Title"] = "Characters";
+
+    var character = ViewData["Character"] as Character;
+
+    if (character != null)
+    {
+    @character.Name
+    @character.Story.Id
+    @character.Story.Name 
+    }
+
+    var characters = ViewData["Characters"] as List<Character>;
+
+    if (characters != null)
+    {
+
+    @foreach (var chars in characters)
+    {
+        @chars.Name
+        @chars.Story.Id
+        @chars.Story.Name 
+    } 
+        }
+    }
