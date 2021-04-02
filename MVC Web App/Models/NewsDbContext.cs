@@ -11,12 +11,9 @@ namespace MVC_Web_App.Models
 
         private IConfiguration _configuration;
 
-        private INewsRepository _newsRepository;
-
-        public NewsDbContext(IConfiguration configuration, INewsRepository newsRepository)
+        public NewsDbContext(IConfiguration configuration)
         {
             _configuration = configuration;
-            _newsRepository = newsRepository;
         }
 
         // configure DbContextOptions to connect to the db
@@ -28,7 +25,7 @@ namespace MVC_Web_App.Models
         // create initial data on first usage of DbContext or when creating new migration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<News>().HasData(_newsRepository.GetNews());
+            modelBuilder.Entity<News>().HasData(NewsInitialData.News);
         }
     }
 }

@@ -4,10 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC_Web_App.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MVC_Web_App
 {
@@ -24,7 +20,7 @@ namespace MVC_Web_App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddScoped<INewsRepository, MockNewsRepository>();
+            services.AddScoped<INewsRepository, SQLNewsRepository>();
             services.AddScoped<NewsDbContext>();
         }
 
