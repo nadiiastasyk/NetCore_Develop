@@ -1,0 +1,14 @@
+﻿@{ ViewData["Title"] = "Characters";
+
+    var character = ViewData["Character"] as Character; }
+<div class="text-center">
+    <table class="table" style="text-align: center">
+        <tr>
+            <th>Character Name</th>
+            <th>Story Id</th>
+            <th>Story Name</th>
+        </tr>
+        <tr>
+            <td>@character.Name</td>
+            <td>@character.Story.Id</td>
+            <td>@character.Story.Name</td>

@@ -1,0 +1,21 @@
+﻿
+@model List<Character>
+@{ ViewData["Title"] = "Characters table"; }
+
+<div class="text-center">
+    <table class="table" style="text-align: center">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Characters</th>
+        </tr>
+        @foreach (var character in Model)
+        {
+<tr>
+    <td>@character.Id</td>
+    <td>@character.Name</td>
+    <td>@character.Story.Name</td>
+</tr>}
+    </table>
+
+</div>

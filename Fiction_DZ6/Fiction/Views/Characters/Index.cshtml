@@ -1,0 +1,28 @@
+﻿@{
+ViewData["Title"] = "Characters' info";
+
+    var character = ViewData["Character"] as Character;
+
+    if (character != null)
+    {
+    @character.Name
+    @character.Story.Id
+    @character.Story.Name
+    }
+  
+    var characters = ViewBag.Characters;
+
+    if (characters != null)
+    {
+<table class="table" style="text-align: center">
+    @foreach (var chars in characters)
+    {
+    <tr>
+        <td><a href="characters/get?index=@chars.Name">@chars.Name</td>
+        <td>@chars.Story.Id</td>
+        <td>@chars.Story.Name</td>
+    </tr>
+    }
+    </table>
+    }
+    }
