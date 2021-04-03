@@ -2,6 +2,7 @@
 
 namespace MVC_Web_App.Models
 {
+    // DZ 4. Task 2
     public class SQLNewsRepository : INewsRepository
     {
         private readonly NewsDbContext _dbContext;
