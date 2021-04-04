@@ -67,7 +67,7 @@ namespace Fiction_DZ6.Controllers
         [HttpPost]
         public IActionResult Add(Character character)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !_charactersRepository.GetCharacters().Where(charId => charId.Id == character.Id).Any())
             {
                 _charactersRepository.Add(character);
                 return RedirectToAction("Index", "Characters");
