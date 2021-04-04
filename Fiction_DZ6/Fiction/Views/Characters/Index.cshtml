@@ -18,9 +18,9 @@ ViewData["Title"] = "Characters' info";
     @foreach (var chars in characters)
     {
     <tr>
-        <td><a href="characters?index=@chars.Name">@chars.Name</td>
-        <td><a href="characters/get/@chars.Story.Id">@chars.Story.Id</td>
-        <td><a href="characters/@chars.Story.Name">@chars.Story.Name</td>
+        <td><a asp-controller="Characters" asp-route-name="@chars.Name">@chars.Name</a></td>
+        <td><a asp-controller="Characters" asp-action="Get" asp-route-id="@chars.Story.Id">@chars.Story.Id</a></td>
+        <td><a asp-controller="Characters" asp-route-name="@chars.Story.Name">@chars.Story.Name</a></td>
     </tr>
     }
     </table>
