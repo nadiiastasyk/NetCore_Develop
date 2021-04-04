@@ -1,4 +1,4 @@
-﻿@{
+@{
 ViewData["Title"] = "Characters' info";
 
     var character = ViewData["Character"] as Character;
@@ -18,9 +18,9 @@ ViewData["Title"] = "Characters' info";
     @foreach (var chars in characters)
     {
     <tr>
-        <td><a href="characters/get?index=@chars.Name">@chars.Name</td>
-        <td>@chars.Story.Id</td>
-        <td>@chars.Story.Name</td>
+        <td><a href="characters?index=@chars.Name">@chars.Name</td>
+        <td><a href="characters/get/@chars.Story.Id">@chars.Story.Id</td>
+        <td><a href="characters/@chars.Story.Name">@chars.Story.Name</td>
     </tr>
     }
     </table>
