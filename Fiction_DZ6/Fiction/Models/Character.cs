@@ -12,10 +12,12 @@ namespace Fiction_DZ6.Models
 
         public Gender Gender { get; set; }
 
-        [Range(0, 3000)]
-        public int Age { get; set; }
+        [Required]
+        [Range(18, 35, ErrorMessage = "Age must be in a range")]
+        public int? Age { get; set; }
 
-        public int StoryId { get; set; }
+        [Required(ErrorMessage = "Story Id must not be empty")]
+        public int? StoryId { get; set; }
 
         public virtual Story Story { get; set; }
 

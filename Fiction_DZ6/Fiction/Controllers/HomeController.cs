@@ -1,4 +1,5 @@
 ﻿using Fiction_DZ6.Models;
+using Fiction_DZ6.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
@@ -28,6 +29,11 @@ namespace Fiction_DZ6.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public void SendMessage([FromServices] IMessageSender messageSender)
+        {
+            messageSender.SendMessage();
         }
     }
 }

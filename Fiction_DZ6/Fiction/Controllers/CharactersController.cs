@@ -1,10 +1,12 @@
 ﻿using Fiction_DZ6.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace Fiction_DZ6.Controllers
 {
     [Route("[controller]")]
+    //[Authorize]
     public class CharactersController : Controller
     {
         private readonly ICharactersRepository _charactersRepository;
@@ -59,12 +61,14 @@ namespace Fiction_DZ6.Controllers
         }
 
         [HttpGet]
+        [Route("[action]")]
         public IActionResult Add()
         { 
             return View();
         }
 
         [HttpPost]
+        [Route("[action]")]
         public IActionResult Add(Character character)
         {
             if (ModelState.IsValid && !_charactersRepository.GetCharacters().Where(charId => charId.Id == character.Id).Any())

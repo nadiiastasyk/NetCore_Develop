@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Fiction_DZ6.Models
 {
-    public class FictionDbContext : DbContext
+    public class FictionDbContext : IdentityDbContext
     {
         public DbSet<Character> Characters { get; set; }
 
@@ -22,6 +23,7 @@ namespace Fiction_DZ6.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Character>().HasData(
              new Character { Id = 1, Name = "Finn Mertens", Age = 14, StoryId = 1 },
                 new Character { Id = 2, Name = "Philip Fry", Age = 25, StoryId = 2 },
