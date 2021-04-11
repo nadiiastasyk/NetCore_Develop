@@ -19,7 +19,7 @@ namespace Fiction_DZ6.Services
             //Declare email message
             MimeMessage message = new MimeMessage();
 
-            MailboxAddress from = new MailboxAddress("Admin", _configuration.SenderEmailAddress);
+            MailboxAddress from = new MailboxAddress("Admin", _configuration.Email.SenderEmailAddress);
             message.From.Add(from);
 
             MailboxAddress to = new MailboxAddress("User", "Recipient@gmail.com");
@@ -40,7 +40,7 @@ namespace Fiction_DZ6.Services
                 client.ServerCertificateValidationCallback = (sender, certificate, certChainType, errors) => true;
                 // smtp-mail.outlook.com   587   MailKit.Security.SecureSocketOptions.StartTls
                 client.Connect("smtp.gmail.com", 465, true);
-                client.Authenticate(_configuration.SenderEmailAddress, _configuration.SenderEmailPassword);
+                client.Authenticate(_configuration.Email.SenderEmailAddress, _configuration.Email.SenderEmailPassword);
 
                 client.Send(message);
                 client.Disconnect(true);

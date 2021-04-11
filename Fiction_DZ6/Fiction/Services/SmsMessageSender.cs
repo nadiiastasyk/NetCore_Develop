@@ -15,12 +15,12 @@ namespace Fiction_DZ6.Services
         }
         public void SendMessage()
         {
-            TwilioClient.Init(_configuration.TwilioAccountSid, _configuration.TwilioAccountAuthToken);
+            TwilioClient.Init(_configuration.Sms.TwilioAccountSid, _configuration.Sms.TwilioAccountAuthToken);
 
             var message = MessageResource.Create(
                 body: "This is the ship that made the Kessel Run in fourteen parsecs?",
-                from: new Twilio.Types.PhoneNumber(_configuration.TwilioAccountPhoneNumber),
-                to: new Twilio.Types.PhoneNumber(_configuration.RecipientPhoneNumber)
+                from: new Twilio.Types.PhoneNumber(_configuration.Sms.TwilioAccountPhoneNumber),
+                to: new Twilio.Types.PhoneNumber(_configuration.Sms.RecipientPhoneNumber)
             );
 
             Console.WriteLine(message.Sid);

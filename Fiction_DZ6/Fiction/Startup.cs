@@ -35,7 +35,6 @@ namespace Fiction_DZ6
 
             services.AddDbContext<FictionDbContext>();
             services.AddScoped<ICharactersRepository, SQLCharactersRepository>();
-            services.AddScoped<IMessageSender, SmsMessageSender>();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<FictionDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -48,6 +47,23 @@ namespace Fiction_DZ6
             });
 
             services.Configure<FictionConfiguration>(Configuration.GetSection("Fiction"));
+            services.AddScoped<SmsMessageSender>();
+            services.AddScoped<EmailMessageSender>();
+
+            services.AddScoped<IMessageSender>(messageSender =>
+            {
+                FictionConfiguration settings = messageSender.GetRequiredService<FictionConfiguration>();
+
+                if (settings.Email.SenderEmailAddress != string.Empty)
+                {
+                    return messageSender.GetRequiredService<EmailMessageSender>();
+                }
+
+                else
+                {
+                    return messageSender.GetRequiredService<SmsMessageSender>();
+                }
+            });
 
             //services.ConfigureApplicationCookie(options =>
             //{
@@ -91,6 +107,12 @@ namespace Fiction_DZ6
                 Console.WriteLine($"Middleware before");
                 await next();
                 Console.WriteLine($"Middleware after");
+            });
+
+            app.Use(async (context, next) =>
+            {
+                Console.WriteLine($"Terminal Middleware");
+                await context.Response.WriteAsync($"Terminal Middleware");
             });
 
             //app.Run(async context =>

@@ -1,18 +1,23 @@
-﻿using Fiction_DZ6.Models;
+﻿using Fiction_DZ6.Infrastructure;
+using Fiction_DZ6.Models;
 using Fiction_DZ6.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
 namespace Fiction_DZ6.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private IConfiguration _configuration;
+        private readonly FictionConfiguration _fictionConfiguration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IOptions<FictionConfiguration> fictionConfiguration, IConfiguration configuration)
         {
-            _logger = logger;
+            _fictionConfiguration = fictionConfiguration.Value;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -29,6 +34,18 @@ namespace Fiction_DZ6.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public IActionResult SendMessage()
+        {
+            // not finished
+            if (ViewData["MessageType"] == "Email")
+            {
+                _configuration.Bind("Email");
+            }
+
+            return View();
         }
 
         public void SendMessage([FromServices] IMessageSender messageSender)
