@@ -35,6 +35,7 @@ namespace Fiction_DZ6
 
             services.AddDbContext<FictionDbContext>();
             services.AddScoped<ICharactersRepository, SQLCharactersRepository>();
+            services.AddScoped<IExternalImageServiceClient, ExternalImageServiceClient>();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<FictionDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -64,6 +65,8 @@ namespace Fiction_DZ6
                     return messageSender.GetRequiredService<SmsMessageSender>();
                 }
             });
+
+            services.AddMemoryCache();
 
             //services.ConfigureApplicationCookie(options =>
             //{
@@ -109,20 +112,20 @@ namespace Fiction_DZ6
                 Console.WriteLine($"Middleware after");
             });
 
-            app.Use(async (context, next) =>
-            {
-                Console.WriteLine($"Terminal Middleware");
-                await context.Response.WriteAsync($"Terminal Middleware");
-            });
-
-            //app.Run(async context =>
+            //app.Use(async (context, next) =>
             //{
-            //    await context.Response.WriteAsync("This is terminal middleware");
+            //    Console.WriteLine($"Terminal Middleware");
+            //    await context.Response.WriteAsync($"Terminal Middleware");
             //});
+
+            app.Map("/map1", HandleMapTest1);            app.Map("/map2", HandleMapTest2);
 
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //app.UseMiddleware<WriteToConsoleMiddleWare>();
+            app.UseWriteToConsole("This is input");
 
             app.UseEndpoints(endpoints =>
             {
@@ -137,6 +140,22 @@ namespace Fiction_DZ6
             //    return request(context);
             //});
 
+        }
+
+        private static void HandleMapTest1(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Map Test 1");
+            });
+        }
+
+        private static void HandleMapTest2(IApplicationBuilder app)
+        {
+            app.Run(async context =>
+            {
+                await context.Response.WriteAsync("Map Test 2");
+            });
         }
     }
 }
