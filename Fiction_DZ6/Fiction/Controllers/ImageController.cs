@@ -1,7 +1,11 @@
-﻿using Fiction_DZ6.Services;
+﻿using Fiction_DZ6.Constants;
+using Fiction_DZ6.Services;
+using Fiction_DZ6.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using System;
+using System.Threading.Tasks;
 
 namespace Fiction_DZ6.Controllers
 {
@@ -9,25 +13,41 @@ namespace Fiction_DZ6.Controllers
     {
         private readonly IExternalImageServiceClient _client;
         private readonly IMemoryCache _cache;
+        private readonly IProcessingChannel _processingChannel;
 
-        public ImageController(IExternalImageServiceClient client, IMemoryCache cache)
+        public ImageController(IExternalImageServiceClient client, IMemoryCache cache, IProcessingChannel processingChannel)
         {
             _client = client;
             _cache = cache;
+            _processingChannel = processingChannel;
         }
 
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] string imageName)
         {
-            var cacheKey = $"image_{DateTime.UtcNow.Date}";
-            var image = _cache.Get<byte[]>(cacheKey);
+            var cache = new CacheHelper(_client, _cache);
+            var image = cache.ProcessCache(imageName);
 
-            if (image is null)
+            return new FileContentResult(image, ContentTypes.Jpeg);
+        }
+
+        [HttpGet]
+        public IActionResult Upload()
+        {
+            return View(new ImageUploadViewModel { UploadStage = UploadStage.Upload });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Upload(ImageUploadViewModel viewModel)
+        {
+            if (viewModel.Image.Length > 0)
             {
-                image = _client.GetImage();
-                _cache.Set<byte[]>(cacheKey, image);
+                //_client.UploadImage(viewModel.Image);
+                await _processingChannel.Set(viewModel.Image);
+                viewModel.UploadStage = UploadStage.Completed;
+                viewModel.Image = null;
             }
 
-            return new FileContentResult(image, "image/jpeg");
+            return View(viewModel);
         }
     }
 }

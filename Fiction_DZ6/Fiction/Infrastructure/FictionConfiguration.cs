@@ -5,6 +5,8 @@
         public Email Email { get; set; }
 
         public Sms Sms { get; set; }
+
+        public ExternalImageService ExternalImageService { get; set; }
     }
 
     public class Email
@@ -23,5 +25,14 @@
         public string TwilioAccountPhoneNumber { get; set; }
 
         public string RecipientPhoneNumber { get; set; }
+    }
+
+    public class ExternalImageService
+    {
+        public string ExternalImageServiceUrl { get; set; }
+
+        public string ExternalImageServiceResource { get; set; }
+
+        public string ExternalImageServiceQueryParameter { get; set; }
     }
 }

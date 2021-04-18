@@ -35,7 +35,8 @@ namespace Fiction_DZ6
 
             services.AddDbContext<FictionDbContext>();
             services.AddScoped<ICharactersRepository, SQLCharactersRepository>();
-            services.AddScoped<IExternalImageServiceClient, ExternalImageServiceClient>();
+            services.AddSingleton<IExternalImageServiceClient, ExternalImageServiceClient>();
+            services.AddSingleton<IProcessingChannel, ImageProcessingChannel>();
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<FictionDbContext>();
             services.Configure<IdentityOptions>(options =>
             {
@@ -67,7 +68,8 @@ namespace Fiction_DZ6
             });
 
             services.AddMemoryCache();
-
+            services.AddHostedService<LoadImageService>();
+            services.AddHostedService<UploadImageService>();
             //services.ConfigureApplicationCookie(options =>
             //{
             //    options.Cookie.HttpOnly = true;
