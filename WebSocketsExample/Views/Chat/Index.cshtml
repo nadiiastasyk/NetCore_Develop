@@ -1,4 +1,5 @@
-﻿@model User
+﻿@using WebSocketsExample.ViewModels
+@model UserJoinChatViewModel
 @{
     ViewData["Title"] = "Chat";
 }
@@ -9,11 +10,10 @@
     <form id="userForm" asp-controller="Chat" asp-action="Index">
         <label asp-for="FirstName"></label><br>
         <input asp-for="FirstName" type="text" /><br>
-        <span asp-validation-for="FirstName"></span>
 
         <label asp-for="LastName"></label><br>
         <input asp-for="LastName" type="text" /><br>
-        <span asp-validation-for="LastName"></span>
+
 
         <button id="joinChat" type="button" onclick="OpenConnection()">Join chat</button><br>
     </form>
