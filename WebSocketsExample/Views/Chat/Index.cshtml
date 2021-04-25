@@ -1,0 +1,26 @@
+﻿@model User
+@{
+    ViewData["Title"] = "Chat";
+}
+
+<body>
+    <h3>Stream Chat</h3>
+
+    <form id="userForm" asp-controller="Chat" asp-action="Index">
+        <label asp-for="FirstName"></label><br>
+        <input asp-for="FirstName" type="text" /><br>
+        <span asp-validation-for="FirstName"></span>
+
+        <label asp-for="LastName"></label><br>
+        <input asp-for="LastName" type="text" /><br>
+        <span asp-validation-for="LastName"></span>
+
+        <button id="joinChat" type="button" onclick="OpenConnection()">Join chat</button><br>
+    </form>
+
+        <br><br><input id="sendmessage" type="button" hidden value="Send message" />
+        <input id="messageTextInput" type="text" hidden/>
+        <ul id="chatMessages"></ul>
+
+        <script src="~/js/chatstream.js"></script>
+</body>
