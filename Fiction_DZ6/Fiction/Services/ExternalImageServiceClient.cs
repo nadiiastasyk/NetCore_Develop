@@ -9,21 +9,31 @@ namespace Fiction_DZ6.Services
 {
     public class ExternalImageServiceClient : IExternalImageServiceClient
     {
-        private readonly FictionConfiguration _configuration;
+        private readonly IRestClient _restClient;
+        private readonly IFictionConfiguration _configuration;
 
-        public ExternalImageServiceClient(IOptions<FictionConfiguration> options)
+        public ExternalImageServiceClient(IFictionConfiguration configuration, IRestClient restClient)
         {
-            _configuration = options.Value;
+            _configuration = configuration;
+            _restClient = restClient;
+            _restClient.BaseUrl = new Uri(_configuration.ExternalImageService.ExternalImageServiceUrl);
         }
 
-        public byte[] GetImage(string imageName)
+        public byte[] GetImage()
         {
-            var client = new RestClient(_configuration.ExternalImageService.ExternalImageServiceUrl);
-            var request = new RestRequest(_configuration.ExternalImageService.ExternalImageServiceResource, Method.GET);
-            request.AddQueryParameter(_configuration.ExternalImageService.ExternalImageServiceQueryParameter, imageName);
+            try
+            {
+                var request = new RestRequest(_configuration.ExternalImageService.ExternalImageServiceResource, Method.GET);
+                request.AddQueryParameter(_configuration.ExternalImageService.ExternalImageServiceQueryParameter, _configuration.ImageName);
 
-            byte[] result = client.Execute(request).RawBytes;
-            return result;
+                byte[] result = _restClient.Execute(request)?.RawBytes;
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
         public void UploadImage(IFormFile image)
@@ -31,7 +41,7 @@ namespace Fiction_DZ6.Services
             var client = new RestClient(_configuration.ExternalImageService.ExternalImageServiceUrl);
             var request = new RestRequest(_configuration.ExternalImageService.ExternalImageServiceResource, Method.POST);
 
-            using (var stream = new MemoryStream())
+            using var stream = new MemoryStream();
             {
                 image.CopyTo(stream);
                 request.AddJsonBody(Convert.ToBase64String(stream.ToArray()));

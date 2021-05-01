@@ -29,7 +29,6 @@ namespace Fiction_DZ6.Controllers
             {
                 ViewData["Character"] = characters.FirstOrDefault(character => character.Name == name && character.Age == age);
             }
-
             else
             {
                 //ViewData["Characters"] = characters.ToList();

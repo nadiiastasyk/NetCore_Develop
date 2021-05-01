@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using RestSharp;
 using System;
 
 namespace Fiction_DZ6
@@ -48,9 +49,11 @@ namespace Fiction_DZ6
                 options.Password.RequiredUniqueChars = 1;
             });
 
-            services.Configure<FictionConfiguration>(Configuration.GetSection("Fiction"));
+            services.Configure<IFictionConfiguration>(Configuration.GetSection("Fiction"));
             services.AddScoped<SmsMessageSender>();
             services.AddScoped<EmailMessageSender>();
+            services.AddSingleton<IRestClient, RestClient>();
+            services.AddSingleton<IFictionConfiguration, FictionConfiguration>();
 
             services.AddScoped<IMessageSender>(messageSender =>
             {

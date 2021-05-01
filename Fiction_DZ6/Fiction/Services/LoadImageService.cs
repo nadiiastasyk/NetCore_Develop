@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Fiction_DZ6.Infrastructure;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
@@ -10,19 +11,20 @@ namespace Fiction_DZ6.Services
     {
         private readonly IExternalImageServiceClient _client;
         private readonly IMemoryCache _cache;
+        private readonly IFictionConfiguration _configuration;
 
-        public LoadImageService(IExternalImageServiceClient client, IMemoryCache cache)
+        public LoadImageService(IExternalImageServiceClient client, IMemoryCache cache, IFictionConfiguration configuration)
         {
             _client = client;
             _cache = cache;
+            _configuration = configuration;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                // TODO: pass imageName as a constructor parameter. Not sure how to send here imageName
-                var imageName = "Image_name.png";
+                var imageName = _configuration.ImageName;
                 var callInterval = TimeSpan.FromMinutes(2);
                 var cache = new CacheHelper(_client, _cache);
                 cache.ProcessCache(imageName);

@@ -1,22 +1,24 @@
 ﻿namespace Fiction_DZ6.Infrastructure
 {
-    public class FictionConfiguration
+    public class FictionConfiguration : IFictionConfiguration
     {
-        public Email Email { get; set; }
+        public IEmail Email { get; set; }
 
-        public Sms Sms { get; set; }
+        public ISms Sms { get; set; }
 
-        public ExternalImageService ExternalImageService { get; set; }
+        public IExternalImageService ExternalImageService { get; set; }
+
+        public string ImageName { get; set; }
     }
 
-    public class Email
+    public class Email : IEmail
     {
         public string SenderEmailAddress { get; set; }
 
         public string SenderEmailPassword { get; set; }
     }
 
-    public class Sms
+    public class Sms : ISms
     {
         public string TwilioAccountSid { get; set; }
 
@@ -27,7 +29,7 @@
         public string RecipientPhoneNumber { get; set; }
     }
 
-    public class ExternalImageService
+    public class ExternalImageService : IExternalImageService
     {
         public string ExternalImageServiceUrl { get; set; }
 

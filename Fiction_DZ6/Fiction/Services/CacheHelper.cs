@@ -22,10 +22,13 @@ namespace Fiction_DZ6.Services
 
             if (image is null)
             {
-                image = _client.GetImage(imageName);
+                image = _client.GetImage();
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions();
                 options.AbsoluteExpirationRelativeToNow = callInterval;
-                _cache.Set<byte[]>(cacheKey, image, options);
+                if (image is not null)
+                {
+                    _cache.Set<byte[]>(cacheKey, image, options);
+                }
             }
 
             return image;
