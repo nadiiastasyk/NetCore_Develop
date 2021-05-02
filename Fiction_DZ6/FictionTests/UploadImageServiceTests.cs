@@ -71,7 +71,7 @@ namespace FictionTests
         }
 
         [Fact]
-        public void ExecuteAsync_Fail_Cancelled()
+        public void ExecuteAsync_Fail_CancellationTokenCalled_Cancelled()
         {
             // Arrange
             var memorySTream = new MemoryStream();
@@ -81,22 +81,24 @@ namespace FictionTests
             file.Setup(x => x.Length).Returns(memorySTream.Length);
             file.Setup(x => x.Name).Returns("ImageName.png");
             var outputFile = file.Object;
-            CancellationTokenSource cts = new CancellationTokenSource();
+
+            var cancellationToken = new CancellationTokenSource();
+            cancellationToken.Cancel();
+
             Mock<IExternalImageServiceClient> externalImageServiceClient = new Mock<IExternalImageServiceClient>(MockBehavior.Strict);
+            //externalImageServiceClient.Setup(x => x.UploadImage(It.IsAny<CancellationToken>())).Returns())
             Mock<IProcessingChannel> processingChannel = new Mock<IProcessingChannel>();
-            processingChannel.Setup(x => x.TryRead(out outputFile)).Callback(() => {
-                cts.Cancel();
-            }).Returns(false);
+            processingChannel.Setup(x => x.TryRead(out outputFile)).Returns(true);
 
             UploadImageService sut = new UploadImageService(externalImageServiceClient.Object, processingChannel.Object);
             Type sutType = typeof(UploadImageService);
             MethodInfo executeAsyncMethodInfo = sutType.GetMethod("ExecuteAsync", BindingFlags.NonPublic | BindingFlags.Instance);
 
             // Act
-            executeAsyncMethodInfo.Invoke(sut, new object[] { CancellationToken.None });
+            executeAsyncMethodInfo.Invoke(sut, new object[] { cancellationToken.Token });
 
             // Assert
             externalImageServiceClient.Verify(x => x.UploadImage(file.Object), Times.Never);
-        }
+          }
     }
 }
