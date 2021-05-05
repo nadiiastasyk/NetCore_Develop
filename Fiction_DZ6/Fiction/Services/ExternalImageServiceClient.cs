@@ -12,9 +12,9 @@ namespace Fiction_DZ6.Services
         private readonly IRestClient _restClient;
         private readonly IFictionConfiguration _configuration;
 
-        public ExternalImageServiceClient(IFictionConfiguration configuration, IRestClient restClient)
+        public ExternalImageServiceClient(IOptions<IFictionConfiguration> configuration, IRestClient restClient)
         {
-            _configuration = configuration;
+            _configuration = configuration.Value;
             _restClient = restClient;
             _restClient.BaseUrl = new Uri(_configuration.ExternalImageService.ExternalImageServiceUrl);
         }

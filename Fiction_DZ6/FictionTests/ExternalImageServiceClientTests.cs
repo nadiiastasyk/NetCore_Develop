@@ -1,5 +1,6 @@
 ﻿using Fiction_DZ6.Infrastructure;
 using Fiction_DZ6.Services;
+using Microsoft.Extensions.Options;
 using Moq;
 using RestSharp;
 using System;
@@ -26,8 +27,9 @@ namespace FictionTests
                 ExternalImageServiceQueryParameter = "imageName"
             };
 
-            Mock<IFictionConfiguration> configuration = new Mock<IFictionConfiguration>();
-            configuration.SetupGet(x => x.ExternalImageService).Returns(imageService);
+            Mock<IOptions<IFictionConfiguration>> configuration = new Mock<IOptions<IFictionConfiguration>>(MockBehavior.Strict);
+            configuration.Setup(x => x.Value.ImageName).Returns("Image_name.png");
+            configuration.SetupGet(x => x.Value.ExternalImageService).Returns(imageService);
             var sut = new ExternalImageServiceClient(configuration.Object, restClient.Object);
 
             // Act
@@ -56,8 +58,9 @@ namespace FictionTests
                 ExternalImageServiceQueryParameter = "imageName"
             };
 
-            Mock<IFictionConfiguration> configuration = new Mock<IFictionConfiguration>(MockBehavior.Strict);
-            configuration.SetupGet(x => x.ExternalImageService).Returns(imageService);
+            Mock<IOptions<IFictionConfiguration>> configuration = new Mock<IOptions<IFictionConfiguration>>(MockBehavior.Strict);
+            configuration.Setup(x => x.Value.ImageName).Returns("Image_name.png");
+            configuration.SetupGet(x => x.Value.ExternalImageService).Returns(imageService);
             var sut = new ExternalImageServiceClient(configuration.Object, restClient.Object);
 
             // Act & Assert

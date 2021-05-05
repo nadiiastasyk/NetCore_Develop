@@ -49,26 +49,27 @@ namespace Fiction_DZ6
                 options.Password.RequiredUniqueChars = 1;
             });
 
-            services.Configure<IFictionConfiguration>(Configuration.GetSection("Fiction"));
+            services.Configure<FictionConfiguration>(Configuration.GetSection("Fiction"));
             services.AddScoped<SmsMessageSender>();
             services.AddScoped<EmailMessageSender>();
             services.AddSingleton<IRestClient, RestClient>();
             services.AddSingleton<IFictionConfiguration, FictionConfiguration>();
+            services.AddSingleton<ICacheHelper, CacheHelper>();
 
-            services.AddScoped<IMessageSender>(messageSender =>
-            {
-                FictionConfiguration settings = messageSender.GetRequiredService<FictionConfiguration>();
+            //services.AddScoped<IMessageSender>(messageSender =>
+            //{
+            //    FictionConfiguration settings = messageSender.GetRequiredService<FictionConfiguration>();
 
-                if (settings.Email.SenderEmailAddress != string.Empty)
-                {
-                    return messageSender.GetRequiredService<EmailMessageSender>();
-                }
+            //    if (settings.Email.SenderEmailAddress != string.Empty)
+            //    {
+            //        return messageSender.GetRequiredService<EmailMessageSender>();
+            //    }
 
-                else
-                {
-                    return messageSender.GetRequiredService<SmsMessageSender>();
-                }
-            });
+            //    else
+            //    {
+            //        return messageSender.GetRequiredService<SmsMessageSender>();
+            //    }
+            //});
 
             services.AddMemoryCache();
             services.AddHostedService<LoadImageService>();

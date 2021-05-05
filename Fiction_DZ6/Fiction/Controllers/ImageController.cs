@@ -11,21 +11,25 @@ namespace Fiction_DZ6.Controllers
 {
     public class ImageController : Controller
     {
-        private readonly IExternalImageServiceClient _client;
-        private readonly IMemoryCache _cache;
+        private readonly ICacheHelper _cacheHelper;
         private readonly IProcessingChannel _processingChannel;
+        private readonly IExternalImageServiceClient _client;
 
-        public ImageController(IExternalImageServiceClient client, IMemoryCache cache, IProcessingChannel processingChannel)
+        public ImageController(IProcessingChannel processingChannel, ICacheHelper cacheHelper, IExternalImageServiceClient client)
         {
-            _client = client;
-            _cache = cache;
             _processingChannel = processingChannel;
+            _cacheHelper = cacheHelper;
+            _client = client;
         }
 
         public IActionResult Get([FromQuery] string imageName)
         {
-            var cache = new CacheHelper(_client, _cache);
-            var image = cache.ProcessCache(imageName);
+            byte[] image = _cacheHelper.ProcessCache(imageName);
+
+            if (image is null)
+            {
+                image = _client.GetImage();
+            }
 
             return new FileContentResult(image, ContentTypes.Jpeg);
         }

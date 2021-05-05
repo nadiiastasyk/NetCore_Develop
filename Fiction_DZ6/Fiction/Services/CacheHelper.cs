@@ -3,14 +3,12 @@ using System;
 
 namespace Fiction_DZ6.Services
 {
-    public class CacheHelper
+    public class CacheHelper : ICacheHelper
     {
-        private readonly IExternalImageServiceClient _client;
         private readonly IMemoryCache _cache;
 
-        public CacheHelper(IExternalImageServiceClient client, IMemoryCache cache)
+        public CacheHelper(IMemoryCache cache)
         {
-            _client = client;
             _cache = cache;
         }
 
@@ -20,15 +18,12 @@ namespace Fiction_DZ6.Services
             var cacheKey = $"{imageName}_{DateTime.UtcNow.Date}";
             byte[] image = _cache.Get<byte[]>(cacheKey);
 
-            if (image is null)
+            if (image is not null)
             {
-                image = _client.GetImage();
                 MemoryCacheEntryOptions options = new MemoryCacheEntryOptions();
                 options.AbsoluteExpirationRelativeToNow = callInterval;
-                if (image is not null)
-                {
-                    _cache.Set<byte[]>(cacheKey, image, options);
-                }
+
+                _cache.Set<byte[]>(cacheKey, image, options);
             }
 
             return image;
