@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "My Orders";
+
+    var myOrders = ViewBag.Orders;
+}
+
+<table class="table" style="text-align: center">
+    <tr>
+        <th>Order Id</th>
+        <th>Cocktails</th>
+        <th>Status</th>
+    </tr>
+    @{ if (myOrders is not null)
+        {
+            foreach (var order in myOrders)
+            {
+                <tr>
+                    <td><label asp-controller="Order" asp-route-id="@order.Id">@order.Id</label></td>
+                    <td>
+                        @if (order.Cocktails.Count > 0)
+                        {
+                            @foreach (var item in order.Cocktails)
+                            {
+                                <label asp-controller="Order" asp-route-cocktails="@item.Name">@item.Name</label>
+                            }
+                        }
+                    </td>
+                    <td><a asp-controller="Order" asp-route-status="@order.Status">@order.Status</a></td>
+                </tr>
+            }
+        }
+    }
+</table>
